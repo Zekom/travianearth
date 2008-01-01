@@ -60,7 +60,7 @@ public class AboutPanel extends javax.swing.JPanel {
 			{
 				txt = new JTextArea();
 				this.add(txt, BorderLayout.CENTER);
-				txt.setText("TravianEarth:\n\nThis software is not complete yet. However, You can use it til I fix some known bugs.\n\nDownload \"map.sql\" file from your Travian server.   \nExamples:\n\n    * http://www.travian.org/karte.sql\n    * http://welt1.travian.de/karte.sql.gz\n    * http://s1.travian.com/map.sql\n    * http://speed.travian.nl/map.sql.gz\n    * http://s1.travian.ae/map.sql.gz\n    \nUnzip the file and open it using this software.\nUsing TravianEarth is easy and straightforward. You only use the pop-up menu and the mouse to navigate inside your Travian world.\n\nFor more information refer to:\nhttp://code.google.com/p/travianearth/\n\nRegards,\ntravianEarth@googlemail.com");
+				txt.setText("TravianEarth:\n\nThis software is not complete yet. However, You can use it til I fix some known bugs.\n\nDownload \"map.sql\" file from your Travian server.   \nExamples:\n\n    * http://www.travian.org/karte.sql\n    * http://welt1.travian.de/karte.sql.gz\n    * http://s1.travian.com/map.sql\n    * http://speed.travian.nl/map.sql.gz\n    * http://s1.travian.ae/map.sql.gz\n    \nUnzip the .gz file. Then, open it using TravianEarth\nUsing TravianEarth is easy and straightforward. You only use the pop-up menu and the mouse to navigate inside your Travian world.\n\nFor more information refer to:\nhttp://code.google.com/p/travianearth/\n\nRegards,\ntravianEarth@googlemail.com");
 				txt.setPreferredSize(new java.awt.Dimension(400, 431));
 				txt.setWrapStyleWord(true);
 				txt.setLineWrap(true);
