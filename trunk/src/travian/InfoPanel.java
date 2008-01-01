@@ -148,12 +148,14 @@ public class InfoPanel extends javax.swing.JPanel {
 				this.add(txtAllicanceVillages);
 				txtAllicanceVillages.setText("Alliance villages");
 				txtAllicanceVillages.setBounds(91, 410, 168, 28);
+				txtAllicanceVillages.setEnabled(false);
 			}
 			{
 				txtTotalPopulation = new JTextField();
 				this.add(txtTotalPopulation);
 				txtTotalPopulation.setText("Total population");
 				txtTotalPopulation.setBounds(91, 455, 168, 28);
+				txtTotalPopulation.setEnabled(false);
 			}
 			{
 				lblID = new JLabel();
@@ -222,6 +224,8 @@ public class InfoPanel extends javax.swing.JPanel {
 				btnAddInterestVilages.setText("Color Villages");
 				btnAddInterestVilages.setBounds(84, 14, 175, 28);
 				btnAddInterestVilages.setBackground(new java.awt.Color(212,208,200));
+				btnAddInterestVilages.setToolTipText("Ex.\n 10,30");
+				btnAddInterestVilages.setEnabled(false);
 				btnAddInterestVilages.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						btnAddInterestVilagesActionPerformed(evt);
