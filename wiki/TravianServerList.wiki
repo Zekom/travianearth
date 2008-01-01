@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Update with the location of map.sql
+Update with the location of map.sql. You are welcomed to add new links here in your comments.
 
 = Details =
 
