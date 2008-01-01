@@ -5,6 +5,17 @@
 Update with the locations of map.sql. You are welcomed to add new links in your comments.
 
 = Details =
+http://s1.travian.co.uk/map.sql.gz
+
+http://s2.travian.co.uk/map.sql.gz
+
+http://s3.travian.co.uk/map.sql.gz
+
+http://s4.travian.co.uk/map.sql.gz
+
+http://speed.travian.co.uk/map.sql.gz
+
+
 
 http://s1.travian.com/map.sql.gz
 
