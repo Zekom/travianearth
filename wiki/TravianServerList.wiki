@@ -7,9 +7,17 @@ Update with the location of map.sql
 = Details =
 
 http://s1.travian.com/map.sql.gz
+
 http://s2.travian.com/map.sql.gz
+
 http://s3.travian.com/map.sql.gz
+
 http://s4.travian.com/map.sql.gz
+
 http://s5.travian.com/map.sql.gz
+
 http://s6.travian.com/map.sql.gz
+
 http://speed.travian.com/map.sql.gz
+
+to be continued
