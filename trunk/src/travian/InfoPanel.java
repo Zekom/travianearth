@@ -326,6 +326,7 @@ public class InfoPanel extends javax.swing.JPanel {
 		
 	}
 	
+	
 	private void btnVillageActionPerformed(ActionEvent evt) {
 		tp.goVillage(txtVillage.getText());
 	}
