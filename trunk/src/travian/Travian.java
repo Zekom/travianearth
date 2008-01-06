@@ -5,6 +5,7 @@ package travian;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -118,6 +119,11 @@ public class Travian extends javax.swing.JFrame {
 	 */
 
 	private void btnLoadMapActionPerformed(ActionEvent evt) {
+		//test
+		if(false){
+			tp.loadSqlFile("d://travian/map.sql", this);
+			return;
+		}
 		JFileChooser chooser=new JFileChooser();
 		// Set the current directory
 		chooser.addChoosableFileFilter(new MapSqlFilter());

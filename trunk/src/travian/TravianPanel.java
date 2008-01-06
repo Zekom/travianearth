@@ -4,14 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
@@ -86,7 +91,7 @@ public class TravianPanel extends JPanel{
 		return arr;
 
 	}
-	
+
 	public static HashSet<Integer> query(Condition cond, HashMap<Integer, Village> map){
 		HashSet<Integer> result=new HashSet<Integer>();
 		for (Entry<Integer, Village> iter : map.entrySet()) {
@@ -131,6 +136,7 @@ public class TravianPanel extends JPanel{
 	private Village curV=null;
 	private Village home=null;
 	private Village ruler=null;
+	private boolean lock=false;
 
 	private int x=0;
 	private int y=0;
@@ -139,7 +145,7 @@ public class TravianPanel extends JPanel{
 	private int x2=300;
 	private int y2=300;
 	private int sqr=1;//600/(x2-x1);
-	
+
 	/*
 	 * Conditions used in queries
 	 */
@@ -282,7 +288,7 @@ public class TravianPanel extends JPanel{
 				y=Integer.parseInt( arr[1].trim());
 
 			} catch (Exception e) {
-				
+
 				//log.error("Integer parsing");
 				continue;
 			}
@@ -361,9 +367,9 @@ public class TravianPanel extends JPanel{
 		if(clrName=="yellow")return Color.yellow;
 		return Color.red;
 	}
-	public Village getVillage(int key){
-		return m.get(key);
-	}
+	//public Village getVillage(int key){
+	//return m.get(key);
+	//}
 
 	public void goAlliance(int aid, Color c){
 		TreeSet<Integer> xx=new TreeSet<Integer>();
@@ -384,56 +390,127 @@ public class TravianPanel extends JPanel{
 			//log.info("No alliance found");
 			return;
 		}
-		
+
 		initDimensions();
 		zoomIn(sumX/xx.size(), sumY/yy.size());
 		zoomIn(sumX/xx.size(), sumY/yy.size());
 		repaint();
 	}
 	public void goAlliance(String alnc){
-		Color c=color("Choose Alliance Color",Color.blue);
+		ArrayList<String> values=new ArrayList<String>();
+		ArrayList<Integer> keys=new ArrayList<Integer>();
+
 		for(HashSet<Integer> iter:alliance.values()){
 			Village v= m.get(iter.iterator().next());
-			if(v.alliance.equals(alnc)){
-				goAlliance(v.aid, c);
-				return;
+			if(v.alliance.toLowerCase().contains(alnc.toLowerCase())){
+				keys.add(v.aid);
+				values.add(v.alliance);
 			}
 		}
+		if(keys.size()==0){
+			JOptionPane.showMessageDialog(this, "There is no alliance in this name:" +alnc);
+			return;
+		}
+		
+		Color c=color("Choose Alliance Color",Color.blue);
+		if(keys.size()==1){
+			goAlliance(keys.get(0), c);
+			return;
+		}
+		int index=choose("Which alliance?", values);
+		if (index==-1)return;
+		goAlliance(keys.get(index), c);
+		return;
+
 	}
 
 	public void goPlayer(String player){
+		ArrayList<String> values=new ArrayList<String>();
+		ArrayList<Integer> keys=new ArrayList<Integer>();
+
 		for(Village v:m.values()){
-			if(v.player.toLowerCase().equals( player.toLowerCase())){
-				goXY(v.x,v.y);
-				return;
+			if(v.player.toLowerCase().contains( player.toLowerCase())){
+				keys.add(v.key());
+				values.add(v.player);
 			}
 		}
+		if(keys.size()==0){
+			JOptionPane.showMessageDialog(this, "There is no player in this name:" +player);
+			return;
+		}
+		if(keys.size()==1){
+			goXY(keys.get(0));
+			return;
+		}
+		int index=choose("Which player?", values);
+		if (index==-1)return;
+		goXY(keys.get(index));
+
 		//log.error("Player "+ player + " was not found");
 	}
 
 	public void goVillage(String vil) {
+		ArrayList<String> values=new ArrayList<String>();
+		ArrayList<Integer> keys=new ArrayList<Integer>();
 		for(Village v:m.values()){
-			if(v.village.toLowerCase().equals( vil.toLowerCase())){
-				goXY(v.x,v.y);
-				return;
+			if(v.village.toLowerCase().contains( vil.toLowerCase())){
+				keys.add(v.key());
+				values.add(v.village);
 			}
 		}
+		if(keys.size()==0){
+			JOptionPane.showMessageDialog(this, "There is no village in this name:" +vil);
+			return;
+		}
+		
+		if(keys.size()==1){
+			goXY(keys.get(0));
+			return;
+		}
+		int index=choose("Which village?", values);
+		if (index==-1)return;
+		goXY(keys.get(index));
+
+
 		//log.error("Village "+ vil + " was not found");
 	}
+	public static int choose(String msg,  List list){
+		String result=(String)JOptionPane.showInputDialog(null, msg, "Search Results",
+				JOptionPane.QUESTION_MESSAGE, null, list.toArray(), "");
+		System.out.println(list.indexOf(result));
+		return list.indexOf(result);
+	}
+
 	public void goXY(int x,int y) {
 		int key=Village.key(x, y);
+		goXY(key);
+	}
+	public void goXY(int key) {
 		if(! m.containsKey(key)){
 			//log.error("Village not found");
 			return;
 		}
 		Village v=m.get(key);
-
-		if (v.c == Village.tribeColor[v.tid])
-			v.c=Color.green;
-		goXY(x, y, v.c);
+		goXY(v,Color.green);
 	}
 
+	
+	public void goXY(Village v, Color c) {
+		v.c=c;
+		interestSet.add(v.key());
+		initDimensions();
+		
+		zoomIn(v.x, v.y);			
+		zoomIn(v.x, v.y);			
+		zoomIn(v.x, v.y);	
+		zoomIn(v.x, v.y);	
+		center(v.x, v.y);
 
+		
+		setWindow();
+		repaint();		
+	}
+		
 	public void goXY(int x,int y, Color c) {
 		int key=Village.key(x, y);
 		if(! m.containsKey(key)){
@@ -443,10 +520,13 @@ public class TravianPanel extends JPanel{
 		Village v=m.get(key);
 		v.c=c;
 		interestSet.add(key);
+		initDimensions();
 		center(x, y);
-		for (int i = sqr/2; i < 4; i++) {
-			zoomIn(v.x, v.y);			
-		}
+		
+		zoomIn(v.x, v.y);			
+		zoomIn(v.x, v.y);			
+		zoomIn(v.x, v.y);	
+		
 		setWindow();
 		repaint();
 
@@ -474,7 +554,20 @@ public class TravianPanel extends JPanel{
 				this.setSize(600, 600);
 				this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 				this.setPreferredSize(new java.awt.Dimension(600, 600));
-				this.setBackground(new java.awt.Color(251,251,251));
+				this.setBackground(new java.awt.Color(253,253,253));
+				this.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent evt) {
+						if (evt.getButton() == evt.BUTTON1)
+							lock = !lock;
+						ip.infoLock(lock);
+
+					}
+				});
+				this.addMouseWheelListener(new MouseWheelListener() {
+					public void mouseWheelMoved(MouseWheelEvent evt) {
+						rootMouseWheelMoved(evt);
+					}
+				});
 				this.addMouseMotionListener(new MouseMotionAdapter() {
 					public void mouseDragged(MouseEvent evt) {
 						rootMouseDragged(evt);
@@ -900,6 +993,7 @@ public class TravianPanel extends JPanel{
 	}
 	private void rootMouseMoved(MouseEvent evt) {
 		//repaint();
+		if (lock)return;
 		int key=picselToKey(evt.getX(), evt.getY());
 		x=Village.x(key);
 		y=Village.y(key);
@@ -979,14 +1073,14 @@ public class TravianPanel extends JPanel{
 		setWindow();
 		repaint();
 	}
-	
+
 	public void zoomOut() {
 		int x=(x1+x2)/2;
 		int y=(y2+y2)/2;
 		zoomOut(x,y);
 
 	}
-	
+
 	public void zoomOut(int x,int y) {
 		if(sqr==1){
 			initDimensions();
@@ -1006,6 +1100,17 @@ public class TravianPanel extends JPanel{
 
 		setWindow();
 		repaint();
+	}
+
+	private void rootMouseWheelMoved(MouseWheelEvent evt) {
+
+		int wheelscroll=evt.getScrollAmount();
+		if (wheelscroll<3)return;
+		int rotation=evt.getWheelRotation();
+		if (rotation==1)
+			zoomIn(x, y);
+		else
+			zoomOut(x,y);
 	}
 
 };

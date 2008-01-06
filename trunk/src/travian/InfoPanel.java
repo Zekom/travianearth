@@ -1,8 +1,10 @@
 package travian;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -44,6 +46,7 @@ public class InfoPanel extends javax.swing.JPanel {
 	private JButton btnGo;
 	private JLabel lblID;
 	private JButton btnAbout;
+	private JLabel lblLock;
 	private JButton btnGoAlliance;
 	private JButton btnPlayer;
 	private JButton btnVillage;
@@ -222,7 +225,7 @@ public class InfoPanel extends javax.swing.JPanel {
 				btnAddInterestVilages = new JButton();
 				this.add(btnAddInterestVilages);
 				btnAddInterestVilages.setText("Color Villages");
-				btnAddInterestVilages.setBounds(84, 14, 175, 28);
+				btnAddInterestVilages.setBounds(7, 14, 175, 28);
 				btnAddInterestVilages.setBackground(new java.awt.Color(212,208,200));
 				btnAddInterestVilages.setToolTipText("Ex.\n 10,30");
 				btnAddInterestVilages.setEnabled(false);
@@ -280,6 +283,12 @@ public class InfoPanel extends javax.swing.JPanel {
 					}
 				});
 			}
+			{
+				lblLock = new JLabel();
+				this.add(lblLock);
+				lblLock.setText("Lock");
+				lblLock.setBounds(196, 14, 56, 28);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -288,6 +297,18 @@ public class InfoPanel extends javax.swing.JPanel {
 	public void info(int x,int y){
 		lblxy.setText("("+x+" , "+y+")");
 	}
+	public void infoLock(boolean b){
+		
+		if (b){
+			lblLock.setText("Lock on");
+			//lblLock.setBackground(Color.red);
+		}else{ 
+			lblLock.setText("Lock off");
+			//lblLock.setBackground(getBackground());
+		}
+		//lblLock.setBackground(Color.red);	
+	}
+	
 	public void info(Village v){
 		if (v==null)return;
 		txtId.setText(""+v.id);
