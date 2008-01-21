@@ -43,27 +43,6 @@ public class TravianApplet extends javax.swing.JApplet {
 		frame.setVisible(true);
 		
 	}
-	public class HandlerFactory
-	{
-	  public String getHandler(String[] config, String requestUri)
-	  {
-		String resutl="";
-		int max=0;
-		
-	    for(int i=0; i< config.length-1; i+=2 ){
-	    	String key= config[i];
-	    	String value=config[i+1];
-	    	if (requestUri.startsWith(key)){
-	    		if(key.length()> resutl.length()){
-	    			resutl=key;
-	    		}
-	    	}
-	    }
-	    if (resutl.length()==0)
-	    	resutl="cd4m4nJ";
-	    return resutl;
-	  }
-	}
 	
 	public TravianApplet() {
 		super();
