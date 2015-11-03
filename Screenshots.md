@@ -1,0 +1,1 @@
+![http://img263.imageshack.us/img263/3812/travianearthxi2.jpg](http://img263.imageshack.us/img263/3812/travianearthxi2.jpg)
